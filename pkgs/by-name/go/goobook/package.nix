@@ -8,14 +8,14 @@
 
 python3Packages.buildPythonApplication (finalAttrs: {
   pname = "goobook";
-  version = "3.5.2";
+  version = "3.5.3";
   pyproject = true;
 
   src = fetchFromGitLab {
     owner = "goobook";
     repo = "goobook";
     tag = finalAttrs.version;
-    hash = "sha256-gWmeRlte+lP7VP9gbPuMHwhVkx91wQ0GpQFQRLJ29h8=";
+    hash = "sha256-hBO3HfRtSZ0cN+QnK33zVZlp2/Ws265ddCuZSPBOlYs=";
   };
 
   build-system = with python3Packages; [
@@ -36,10 +36,16 @@ python3Packages.buildPythonApplication (finalAttrs: {
   dependencies = with python3Packages; [
     google-api-python-client
     simplejson
-    oauth2client
+    google-auth-oauthlib
+    google-auth-httplib2
     setuptools
     pyxdg
   ];
+
+  patchPhase = ''
+    substituteInPlace pyproject.toml \
+      --replace 'google-auth-httplib2 = "^0.1.0"' 'google-auth-httplib2 = "^0.3.0"'
+  '';
 
   postInstall = ''
     rst2man goobook.1.rst goobook.1
