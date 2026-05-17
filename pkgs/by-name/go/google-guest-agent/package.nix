@@ -12,16 +12,16 @@
 
 buildGoModule (finalAttrs: {
   pname = "guest-agent";
-  version = "20230821.00";
+  version = "20260511.01";
 
   src = fetchFromGitHub {
     owner = "GoogleCloudPlatform";
     repo = "guest-agent";
     tag = finalAttrs.version;
-    hash = "sha256-DP15KDnD09edBxOQDwP0cjVIFxjMzE1hu1Sbu6Faj9Y=";
+    hash = "sha256-YmTzJKUmbuQGTXBOwQ7CKWtnjAUF5LG1RsukcMA1cr0=";
   };
 
-  vendorHash = "sha256-PGvyDjhLwIKhR6NmwzbzjfkBK+FqsziAdsybQmCbtCc=";
+  vendorHash = "sha256-B9bEnWOsCaGRaSwdWVzSyhlK0lkPNKXjw04ZCWlk4Hs=";
 
   patches = [ ./disable-etc-mutation.patch ];
 
@@ -42,9 +42,10 @@ buildGoModule (finalAttrs: {
     procps
   ];
 
-  # Skip tests which require networking.
+  # Skip tests which require networking or non-loopback interfaces.
   preCheck = ''
     rm google_guest_agent/wsfc_test.go
+    rm google_guest_agent/network/manager/*_test.go
   '';
 
   postInstall = ''

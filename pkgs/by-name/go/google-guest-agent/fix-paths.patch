@@ -23,7 +23,7 @@ index 16bb9c2..ae02067 100644
 +ExecStart=@true@
  RemainAfterExit=true
  # This service does nothing on start, and runs shutdown scripts on stop.
--ExecStop=/usr/bin/google_metadata_script_runner shutdown
+-ExecStop=/usr/bin/google_metadata_script_runner_adapt shutdown
 +ExecStop=@out@/bin/google_metadata_script_runner shutdown
  TimeoutStopSec=0
  KillMode=process
@@ -36,7 +36,7 @@ index dfc9838..2465265 100644
  
  [Service]
  Type=oneshot
--ExecStart=/usr/bin/google_metadata_script_runner startup
+-ExecStart=/usr/bin/google_metadata_script_runner_adapt startup
 +ExecStart=@out@/bin/google_metadata_script_runner startup
  #TimeoutStartSec is ignored for Type=oneshot service units.
  KillMode=process
